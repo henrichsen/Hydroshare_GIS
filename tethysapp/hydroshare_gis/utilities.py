@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.core.files.uploadedfile import UploadedFile
-from tethys_sdk.services import get_spatial_dataset_engine
+from .app import HydroshareGis
 from tethys_services.backends.hs_restclient_helper import get_oauth_hs
 from .model import Layer
 
@@ -71,7 +71,7 @@ def upload_file_to_geoserver(res_id, res_type, res_file, file_index=None):
             #         headers=headers,
             #         auth=auth.HTTPBasicAuth(username=get_geoserver_credentials()[0],
             #                            password=get_geoserver_credentials()[1]))
-
+            print(full_store_id)###
             response = engine.create_coverage_resource(store_id=full_store_id,
                                                        coverage_file=res_file,
                                                        coverage_type=coverage_type,
@@ -159,7 +159,7 @@ def zip_files(res_files, zip_path):
 def return_spatial_dataset_engine():
     global spatial_dataset_engine
     if spatial_dataset_engine is None:
-        spatial_dataset_engine = get_spatial_dataset_engine(name='default')
+        spatial_dataset_engine = HydroshareGis.get_persistent_store_database('hydroshare_gis_layers')
 
     return spatial_dataset_engine
 
@@ -222,18 +222,17 @@ def get_layer_md_from_geoserver(store_id, layer_name, res_type):
 
 
 def get_geoserver_url(request=None):
-    engine = return_spatial_dataset_engine()
-    geoserver_url = engine.endpoint.split('/rest')[0]
-
+    #engine = HydroshareGis.get_persistent_store_database('hydroshare_gis_layers')
+    geoserver_url = HydroshareGis.get_persistent_store_database('hydroshare_gis_layers', as_url=True)
     if request:
-        return JsonResponse({'geoserver_url': geoserver_url})
+        return JsonResponse({'geoserver_url': str(geoserver_url)})
     else:
         return geoserver_url
 
 
 def get_debug_val():
     global currently_testing
-    val = False
+    val = True #change
     if gethostname() == 'ubuntu':
         if not currently_testing:
             val = True
@@ -461,6 +460,10 @@ def process_nongeneric_res(hs, res_id, res_type=None, res_title=None, username=N
     except Exception as e:
         exc_type, exc_value, exc_traceback = exc_info()
         msg = e.message if e.message else str(e)
+        if e.message:
+            msg=e.message
+        else:
+            msg=str(e)
         logger.error(''.join(format_exception(exc_type, exc_value, exc_traceback)))
         logger.error(msg)
         if gethostname() == 'ubuntu':
@@ -1374,7 +1377,10 @@ def process_generic_res_file(hs, res_id, res_file_name, username, file_index=0):
         return_obj['message'] = 'You are not authorized to access this resource.'
     except Exception as e:
         exc_type, exc_value, exc_traceback = exc_info()
-        msg = e.message if e.message else str(e)
+        if e.message:
+            msg = e.message
+        else:
+            msg = str(e)
         logger.error(''.join(format_exception(exc_type, exc_value, exc_traceback)))
         logger.error(msg)
         if gethostname() == 'ubuntu':
