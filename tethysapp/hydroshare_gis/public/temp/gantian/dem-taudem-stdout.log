@@ -1,0 +1,26 @@
+PitRemove version 5.3.5
+Input file results/output/dem.tif has geographic coordinate system.
+Processes: 20
+Header read time: 1.116860
+Data read time: 0.026164
+Compute time: 2.068317
+Write time: 1.143798
+Total time: 4.355138
+D8FlowDir version 5.3.5
+Input file /gpfs/largeblockFS/scratch/gisolve/tmp/44537.cg-gpu01/taudem/demfel.tif has geographic coordinate system.
+Processors: 20
+Header read time: 1.118272
+Data read time: 0.148005
+Compute Slope time: 0.715547
+Write Slope time: 1.645481
+Resolve Flat time: 12.907210
+Write Flat time: 0.517356
+Total time: 17.051872
+AreaD8 version 5.3.5
+Input file /gpfs/largeblockFS/scratch/gisolve/tmp/44537.cg-gpu01/taudem/demp.tif has geographic coordinate system.
+Input file /gpfs/largeblockFS/scratch/gisolve/tmp/44537.cg-gpu01/taudem/__hsinputdir/Startrc.tif has geographic coordinate system.
+Number of Processes: 20
+Read time: 1.225632
+Compute time: 1.121284
+Write time: 0.468523
+Total time: 2.815439

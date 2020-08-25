@@ -1,0 +1,48 @@
+PitRemove version 5.3.5
+Input file results/output/CubRiverAnalysis.tif has projected coordinate system.
+Processes: 20
+Header read time: 1.077035
+Data read time: 0.015749
+Compute time: 0.165807
+Write time: 0.356711
+Total time: 1.615302
+D8FlowDir version 5.3.5
+Input file /gpfs/largeblockFS/scratch/gisolve/tmp/46204.cg-gpu01/taudem/CubRiverAnalysisfel.tif has projected coordinate system.
+Processors: 20
+Header read time: 0.993082
+Data read time: 0.037138
+Compute Slope time: 0.078582
+Write Slope time: 0.382250
+Resolve Flat time: 0.555811
+Write Flat time: 0.076649
+Total time: 2.123511
+AreaD8 version 5.3.5
+Input file /gpfs/largeblockFS/scratch/gisolve/tmp/46204.cg-gpu01/taudem/CubRiverAnalysisp.tif has projected coordinate system.
+Number of Processes: 20
+Read time: 1.147217
+Compute time: 0.164667
+Write time: 0.103452
+Total time: 1.415336
+Threshold version 5.3.5
+Input file /gpfs/largeblockFS/scratch/gisolve/tmp/46204.cg-gpu01/taudem/CubRiverAnalysisad8o.tif has projected coordinate system.
+Compute time: 0.029580
+AreaD8 version 5.3.5
+Input file /gpfs/largeblockFS/scratch/gisolve/tmp/46204.cg-gpu01/taudem/CubRiverAnalysisp.tif has projected coordinate system.
+Number of Processes: 20
+Read time: 1.131864
+Compute time: 0.101175
+Write time: 0.096239
+Total time: 1.329278
+StreamNet version 5.3.5
+Input file /gpfs/largeblockFS/scratch/gisolve/tmp/46204.cg-gpu01/taudem/CubRiverAnalysissrc.tif has projected coordinate system.
+Input file /gpfs/largeblockFS/scratch/gisolve/tmp/46204.cg-gpu01/taudem/CubRiverAnalysisp.tif has projected coordinate system.
+Input file /gpfs/largeblockFS/scratch/gisolve/tmp/46204.cg-gpu01/taudem/CubRiverAnalysisad8.tif has projected coordinate system.
+Input file /gpfs/largeblockFS/scratch/gisolve/tmp/46204.cg-gpu01/taudem/CubRiverAnalysisfel.tif has projected coordinate system.
+CubRiverAnalysisnet Processors: 20
+Read time: 1.133871
+Length compute time: 0.051873
+Link compute time: 0.060299
+Link write time: 0.695118
+Watershed compute time: 0.047993
+Write time: 0.151833
+Total time: 2.140986
