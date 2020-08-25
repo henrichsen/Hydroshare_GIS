@@ -9,7 +9,7 @@ requirements:
   conda:
     channels:
     packages:
-      - hs-restclient
+      - hs_restclient
       - xmltodict
       - GDAL
 

@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.core.files.uploadedfile import UploadedFile
 from tethys_sdk.services import get_spatial_dataset_engine
 from tethys_services.backends.hs_restclient_helper import get_oauth_hs
-from model import Layer
+from .model import Layer
 
 import hs_restclient as hs_r
 import requests
@@ -20,7 +20,7 @@ from socket import gethostname
 from subprocess import check_output
 from mimetypes import guess_type
 from logging import getLogger
-from prj_tools import check_crs
+from .prj_tools import check_crs
 
 
 logger = getLogger('django')
@@ -1173,7 +1173,7 @@ def get_res_files_list(hs, res_id):
                 name_list.append(basename)
                 size_list.append(size)
 
-        name_size_list = zip(name_list, size_list)
+        name_size_list = list(zip(name_list, size_list))
         name_size_list_sorted = sorted(name_size_list, key=lambda tup: tup[1])
 
         for item in name_size_list_sorted:

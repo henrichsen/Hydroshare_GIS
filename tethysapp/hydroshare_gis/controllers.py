@@ -11,11 +11,11 @@ def home(request):
     :param request: the request object sent by the browser
     """
 
-    point_size_options = range(1, 31)
-    stroke_width_options = range(1,16)
+    point_size_options = list(range(1, 31))
+    stroke_width_options = list(range(1,16))
     point_shape_options = ['circle', 'square', 'triangle', 'star', 'cross', 'X']
-    font_size_options = range(8, 37, 2)
-    num_gradient_colors_options = range(2, 9)
+    font_size_options = list(range(8, 37, 2))
+    num_gradient_colors_options = list(range(2, 9))
 
     context = {
         'point_size_options': point_size_options,
@@ -42,7 +42,7 @@ def home(request):
                         'type': md['resource_type']
                     })
                 except Exception as e:
-                    print str(e)
+                    print(str(e))
                     continue
 
             userInfo = hs.getUserInfo()
@@ -58,7 +58,7 @@ def home(request):
                             })
 
                 except Exception as e:
-                    print str(e)
+                    print(str(e))
                     continue
 
             context['existing_projects'] = existing_projects

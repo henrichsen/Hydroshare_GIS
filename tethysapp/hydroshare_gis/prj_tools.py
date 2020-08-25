@@ -16,7 +16,7 @@ def _find_matched_epsg(proj_str_raw, str_type="esri"):
         if not func:
             raise Exception("Expected GDAL version: >= 2.3.0; Current: {0}".format(gdal.__version__))
         if str_type.lower() == "esri":
-            if type(proj_str_raw) in (str, unicode):
+            if type(proj_str_raw) in (str, str):
                 proj_str_raw = [proj_str_raw]
             source.ImportFromESRI(proj_str_raw)
         elif str_type.lower() == "wkt":
