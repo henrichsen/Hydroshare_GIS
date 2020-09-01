@@ -26,7 +26,7 @@ from .prj_tools import check_crs
 logger = getLogger('django')
 workspace_id = None
 spatial_dataset_engine = None
-currently_testing = False
+currently_testing = True #change to False
 
 def get_json_response(response_type, message):
     return JsonResponse({response_type: message})
@@ -159,7 +159,7 @@ def zip_files(res_files, zip_path):
 def return_spatial_dataset_engine():
     global spatial_dataset_engine
     if spatial_dataset_engine is None:
-        spatial_dataset_engine = get_spatial_dataset_engine(name='postgis')### make name not hardcoded
+        spatial_dataset_engine = get_spatial_dataset_engine(name='NONE')### make name not hardcoded
 
     return spatial_dataset_engine
 
@@ -265,7 +265,8 @@ def extract_site_info_from_time_series(sqlite_fpath):
 def extract_site_info_from_hs_metadata(hs, res_id):
     site_info = None
     try:
-        md_dict = xmltodict.parse(hs.getScienceMetadataRDF(res_id))
+        endstring = len(hs.getScienceMetadataRDF(res_id))-3
+        md_dict = xmltodict.parse(hs.getScienceMetadataRDF(res_id)[2:endstring])
         if len(md_dict['rdf:RDF']['rdf:Description'][0]['dc:coverage']) == 1:
             site_info_list = md_dict['rdf:RDF']['rdf:Description'][0]['dc:coverage']['dcterms:point']['rdf:value'].split(';')
         else:
@@ -315,7 +316,8 @@ def get_band_info(hs, res_id, res_type, raster_fpath=None):
     band_info = None
     if res_type == 'RasterResource':
         try:
-            md_dict = xmltodict.parse(hs.getScienceMetadataRDF(res_id))
+            endstring=len(hs.getScienceMetadataRDF(res_id))-3
+            md_dict = xmltodict.parse(hs.getScienceMetadataRDF(res_id)[2:endstring])
             band_info_raw = md_dict['rdf:RDF']['rdf:Description'][0]['hsterms:BandInformation']['rdf:Description']
             band_info = {}
             if 'hsterms:minimumValue' in band_info_raw:
@@ -1374,7 +1376,11 @@ def process_generic_res_file(hs, res_id, res_file_name, username, file_index=0):
         return_obj['message'] = 'You are not authorized to access this resource.'
     except Exception as e:
         exc_type, exc_value, exc_traceback = exc_info()
-        msg = e.message if e.message else str(e)
+        try:
+            msg = e.message
+        except:
+            msg = str(e)
+
         logger.error(''.join(format_exception(exc_type, exc_value, exc_traceback)))
         logger.error(msg)
         if gethostname() == 'ubuntu':
