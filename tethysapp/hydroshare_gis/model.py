@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 from .app import HydroshareGis
 
-engine = HydroshareGis.get_persistent_store_engine('hydroshare_gis_layers')
+engine = HydroshareGis.get_persistent_store_database('hydroshare_gis_layers')
 SessionMaker = sessionmaker(bind=engine)
 Base = declarative_base()
 

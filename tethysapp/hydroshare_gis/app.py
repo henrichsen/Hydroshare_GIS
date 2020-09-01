@@ -1,6 +1,7 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
 from tethys_sdk.app_settings import PersistentStoreDatabaseSetting
 
+
 class HydroshareGis(TethysAppBase):
     """
     Tethys app class for HydroShare GIS.
@@ -71,15 +72,16 @@ class HydroshareGis(TethysAppBase):
                     )
         return url_maps
 
-
     def persistent_store_settings(self):
         """
         Add one or more persistent stores
         """
         stores = (
             PersistentStoreDatabaseSetting(name='hydroshare_gis_layers',
-                                  initializer='hydroshare_gis.init_stores.init_hydroshare_gis_layers_db',
-                                  spatial=False),
-                  )
+                                           initializer='hydroshare_gis.init_stores.init_hydroshare_gis_layers_db',
+                                           spatial=False,
+                                           required=True
+                                           ),
+        )
 
         return stores

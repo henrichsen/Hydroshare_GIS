@@ -159,7 +159,7 @@ def zip_files(res_files, zip_path):
 def return_spatial_dataset_engine():
     global spatial_dataset_engine
     if spatial_dataset_engine is None:
-        spatial_dataset_engine = get_spatial_dataset_engine(name='default')
+        spatial_dataset_engine = get_spatial_dataset_engine(name='postgis')### make name not hardcoded
 
     return spatial_dataset_engine
 
