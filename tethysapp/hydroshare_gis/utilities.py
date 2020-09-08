@@ -305,11 +305,15 @@ def sizeof_fmt(num, suffix='B'):
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 
-def make_geoserver_request(web_service, params):
+def make_geoserver_request(web_service, params): ## error get value on click
     geoserver_url = get_geoserver_url() + '/%s' % web_service
-
+    print("geoserver_url: "+geoserver_url)
+    print('params: ')
+    print(params)
     r = requests.get(geoserver_url, params=params, auth=get_geoserver_credentials())
-
+    print('r text: ')
+    print(r.text)
+    print(r.url)
     return r
 
 
@@ -1075,8 +1079,10 @@ def set_currently_testing(val):
 
 def get_features_on_click(params_str):
     params = loads(params_str)
+    print('params: ')
+    print(params)
     r = make_geoserver_request('wms', params)
-    return r.json()
+    return r.json() ## error  get value on click
 
 
 def prepare_result_for_layer_db(result):
