@@ -22,11 +22,11 @@ from mimetypes import guess_type
 from logging import getLogger
 from .prj_tools import check_crs
 
-
 logger = getLogger('django')
 workspace_id = None
 spatial_dataset_engine = None
-currently_testing = True #change to False
+currently_testing = True  # change to False
+
 
 def get_json_response(response_type, message):
     return JsonResponse({response_type: message})
@@ -159,7 +159,7 @@ def zip_files(res_files, zip_path):
 def return_spatial_dataset_engine():
     global spatial_dataset_engine
     if spatial_dataset_engine is None:
-        spatial_dataset_engine = get_spatial_dataset_engine(name='NONE')### make name not hardcoded
+        spatial_dataset_engine = get_spatial_dataset_engine(name='NONE')  ### make name not hardcoded
 
     return spatial_dataset_engine
 
@@ -198,7 +198,6 @@ def get_layer_md_from_geoserver(store_id, layer_name, res_type):
                 extents = json['featureType']['latLonBoundingBox']
             except KeyError:
                 extents = json['featureType']['nativeBoundingBox']
-
 
             attributes = json['featureType']['attributes']['attribute']
             attributes_string = ''
@@ -265,12 +264,14 @@ def extract_site_info_from_time_series(sqlite_fpath):
 def extract_site_info_from_hs_metadata(hs, res_id):
     site_info = None
     try:
-        endstring = len(hs.getScienceMetadataRDF(res_id))-3
+        endstring = len(hs.getScienceMetadataRDF(res_id)) - 3
         md_dict = xmltodict.parse(hs.getScienceMetadataRDF(res_id)[2:endstring])
         if len(md_dict['rdf:RDF']['rdf:Description'][0]['dc:coverage']) == 1:
-            site_info_list = md_dict['rdf:RDF']['rdf:Description'][0]['dc:coverage']['dcterms:point']['rdf:value'].split(';')
+            site_info_list = md_dict['rdf:RDF']['rdf:Description'][0]['dc:coverage']['dcterms:point'][
+                'rdf:value'].split(';')
         else:
-            site_info_list = md_dict['rdf:RDF']['rdf:Description'][0]['dc:coverage'][0]['dcterms:point']['rdf:value'].split(';')
+            site_info_list = md_dict['rdf:RDF']['rdf:Description'][0]['dc:coverage'][0]['dcterms:point'][
+                'rdf:value'].split(';')
         lon = None
         lat = None
         projection = None
@@ -316,7 +317,7 @@ def get_band_info(hs, res_id, res_type, raster_fpath=None):
     band_info = None
     if res_type == 'RasterResource':
         try:
-            endstring=len(hs.getScienceMetadataRDF(res_id))-3
+            endstring = len(hs.getScienceMetadataRDF(res_id)) - 3
             md_dict = xmltodict.parse(hs.getScienceMetadataRDF(res_id)[2:endstring])
             band_info_raw = md_dict['rdf:RDF']['rdf:Description'][0]['hsterms:BandInformation']['rdf:Description']
             band_info = {}
@@ -334,7 +335,8 @@ def get_band_info(hs, res_id, res_type, raster_fpath=None):
         except KeyError:
             pass
         except Exception as e:
-            logger.error('Unexpected, though not fatal, error occurred in get_band_info while processing res: %s' % res_id)
+            logger.error(
+                'Unexpected, though not fatal, error occurred in get_band_info while processing res: %s' % res_id)
             logger.error(str(e))
 
         if band_info is None and raster_fpath and os.path.exists(raster_fpath):
@@ -614,6 +616,7 @@ def process_res_by_type(hs, res_id, res_type, hs_tempdir):
 
     return return_obj
 
+
 def get_info_from_nongeneric_res_files(res_id, res_type, res_contents_path):
     return_obj = {
         'success': False,
@@ -712,7 +715,8 @@ def get_hs_res_list(hs):
 
     try:
         valid_res_types = [
-            'GenericResource', 'GeographicFeatureResource', 'RasterResource', 'RefTimeSeriesResource', 'TimeSeriesResource', 
+            'GenericResource', 'GeographicFeatureResource', 'RasterResource', 'RefTimeSeriesResource',
+            'TimeSeriesResource',
             'ScriptResource', 'CompositeResource'
         ]
         for res in hs.getResourceList(types=valid_res_types):
@@ -932,7 +936,6 @@ def delete_tempfiles(username):
     os.system('rm -rf %s' % hs_tempdir)
 
 
-
 def save_new_project(hs, project_info, res_title, res_abstract, res_keywords, username):
     return_obj = {
         'success': False,
@@ -940,16 +943,14 @@ def save_new_project(hs, project_info, res_title, res_abstract, res_keywords, us
         'res_id': None
     }
     res_id = None
-    hs_tempdir = get_hs_tempdir(username)
-
+    hs_tempdir = get_hs_tempdir(username)  ### error
     try:
         res_type = 'GenericResource'
         fname = 'mapProject.json'
         project_info_json = loads(project_info)
         orig_id = project_info_json['resId']
-
         with TemporaryFile() as f:
-            f.write(dumps(project_info_json))
+            f.write(dumps(project_info_json).encode('utf-8'))
             f.seek(0)
             res_id = hs.createResource(res_type,
                                        res_title,
@@ -960,7 +961,7 @@ def save_new_project(hs, project_info, res_title, res_abstract, res_keywords, us
                                        )
             project_info_json['resId'] = res_id
             f.seek(0)
-            f.write(dumps(project_info_json))
+            f.write(dumps(project_info_json).encode('utf-8'))
             f.truncate()
             f.seek(0)
             hs.deleteResourceFile(res_id, fname)
@@ -1035,6 +1036,7 @@ def save_project(hs, res_id, project_info):
 
     return return_obj
 
+
 def generate_attribute_table(layer_id, layer_attributes):
     return_obj = {
         'success': False,
@@ -1063,7 +1065,6 @@ def generate_attribute_table(layer_id, layer_attributes):
         return_obj['success'] = True
     except Exception as e:
         return_obj['message'] = str(e)
-
     return return_obj
 
 
@@ -1079,7 +1080,6 @@ def get_features_on_click(params_str):
 
 
 def prepare_result_for_layer_db(result):
-
     result.pop('project_info', None)  # parameter "project_info" not expected in following call
 
     # The values of the following keys, if they are not None, are python object that must converted to strings
@@ -1577,6 +1577,7 @@ def extract_band_info_from_file(raster_fpath):
 
     return band_info
 
+
 def check_if_image_pyramid(fpath):
     is_image_pyramid = False
     with zipfile.ZipFile(fpath, 'r') as z:
@@ -1675,12 +1676,14 @@ def add_file_to_res(hs, res_id, fpath):
             else:
                 raise e
 
+
 def remove_layer_from_geoserver(res_id, file_index=None):
     store_id = '{workspace}:{store}'.format(workspace=get_workspace(),
                                             store=get_geoserver_store_id(res_id, file_index))
 
     engine = return_spatial_dataset_engine()
     engine.delete_store(store_id, purge=True, recurse=True, debug=get_debug_val())
+
 
 def lonlat_point_to_geojson(lon, lat):
     return {
@@ -1696,6 +1699,7 @@ def lonlat_point_to_geojson(lon, lat):
             }
         }
     }
+
 
 def get_hs_auth_obj(request):
     return_obj = {
