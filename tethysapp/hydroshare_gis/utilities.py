@@ -305,15 +305,9 @@ def sizeof_fmt(num, suffix='B'):
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 
-def make_geoserver_request(web_service, params): ## error get value on click
+def make_geoserver_request(web_service, params):
     geoserver_url = get_geoserver_url() + '/%s' % web_service
-    print("geoserver_url: "+geoserver_url)
-    print('params: ')
-    print(params)
     r = requests.get(geoserver_url, params=params, auth=get_geoserver_credentials())
-    print('r text: ')
-    print(r.text)
-    print(r.url)
     return r
 
 
@@ -947,7 +941,7 @@ def save_new_project(hs, project_info, res_title, res_abstract, res_keywords, us
         'res_id': None
     }
     res_id = None
-    hs_tempdir = get_hs_tempdir(username)  ### error
+    hs_tempdir = get_hs_tempdir(username)
     try:
         res_type = 'GenericResource'
         fname = 'mapProject.json'
@@ -1079,10 +1073,8 @@ def set_currently_testing(val):
 
 def get_features_on_click(params_str):
     params = loads(params_str)
-    print('params: ')
-    print(params)
     r = make_geoserver_request('wms', params)
-    return r.json() ## error  get value on click
+    return r.json()
 
 
 def prepare_result_for_layer_db(result):

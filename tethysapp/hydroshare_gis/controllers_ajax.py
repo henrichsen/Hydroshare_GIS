@@ -182,8 +182,7 @@ def ajax_delete_tempfiles(request):
 def ajax_get_features_on_click(request):
     if request.is_ajax and request.method == 'GET':
         params_str = request.GET['params']
-        print('params_str: '+params_str)
-        return_obj = get_features_on_click(params_str) ## error get value on click
+        return_obj = get_features_on_click(params_str)
 
         return JsonResponse(return_obj)
 
