@@ -2236,7 +2236,6 @@
     onClickViewGetPixelVal = function (e) {
         var clickedElement = e.trigger;
         var $lyrListItem = $(clickedElement).parent().parent();
-        alert(JSON.stringify($lyrListItem));
         var lyrId = $lyrListItem.data('layer-id');
         map.once('click', function (evt) {
             var origCoords = evt.coordinate;
@@ -2256,7 +2255,6 @@
                 'x': 0,
                 'y': 0
             };
-            alert(JSON.stringify(params));
             $.ajax({
                 type: 'GET',
                 url: '/apps/hydroshare-gis/get-features-on-click',
