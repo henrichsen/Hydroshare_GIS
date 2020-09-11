@@ -202,10 +202,10 @@
                 'position': 'right',
                 'onOpen': function (e) {
                     $('.hmbrgr-div').removeClass('hmbrgr-open');
-                    $(e.trigger.context).parent().addClass('hmbrgr-open');
+                    $(e.trigger).parent().addClass('hmbrgr-open');
                 },
                 'onClose': function (e) {
-                    $(e.trigger.context).parent().removeClass('hmbrgr-open');
+                    $(e.trigger).parent().removeClass('hmbrgr-open');
                 }
             });
         contextMenuId = $('.iw-contextMenu:last-child').attr('id');
@@ -2204,7 +2204,7 @@
     };
 
     onClickDeleteLayer = function (e) {
-        var clickedElement = e.trigger.context;
+        var clickedElement = e.trigger;
         var count;
         var $lyrListItem = $(clickedElement).parent().parent();
         var displayName = $lyrListItem.find('.layer-name').text();
@@ -2234,7 +2234,7 @@
     };
 
     onClickViewGetPixelVal = function (e) {
-        var clickedElement = e.trigger.context;
+        var clickedElement = e.trigger;
         var $lyrListItem = $(clickedElement).parent().parent();
         alert(JSON.stringify($lyrListItem));
         var lyrId = $lyrListItem.data('layer-id');
@@ -2285,7 +2285,7 @@
     };
 
     onClickModifySymbology = function (e) {
-        var clickedElement = e.trigger.context;
+        var clickedElement = e.trigger;
         var $lyrListItem = $(clickedElement).parent().parent();
 
         setupSymbologyModalState($lyrListItem);
@@ -2293,7 +2293,7 @@
     };
 
     onClickViewFile = function (e) {
-        var clickedElement = e.trigger.context;
+        var clickedElement = e.trigger;
         var $lyrListItem = $(clickedElement).parent().parent();
         var fName = $lyrListItem.data('public-fname');
         var resType = $lyrListItem.data('res-type');
@@ -2350,7 +2350,7 @@
     };
 
     onClickOpenInHS = function (e) {
-        var clickedElement = e.trigger.context;
+        var clickedElement = e.trigger;
         var $lyrListItem = $(clickedElement).parent().parent();
         var resId = $lyrListItem.data('res-id');
         var urlBase;
@@ -2360,7 +2360,7 @@
     };
 
     onClickRenameLayer = function (e) {
-        var clickedElement = e.trigger.context;
+        var clickedElement = e.trigger;
         var $lyrListItem = $(clickedElement).parent().parent();
         var $layerNameInput = $lyrListItem.find('input[type=text]');
         var $LayerNameSpan = $lyrListItem.find('span');
@@ -2416,7 +2416,7 @@
 
     onClickShowAttrTable = function (e) {
         showMainLoadAnim();
-        var clickedElement = e.trigger.context;
+        var clickedElement = e.trigger;
         var $lyrListItem = $(clickedElement).parent().parent();
         var layerName = $lyrListItem.text();
         var layerId = $lyrListItem.data('layer-id');
@@ -2426,7 +2426,7 @@
     };
 
     onClickViewLegend = function (e) {
-        var clickedElement = e.trigger.context;
+        var clickedElement = e.trigger;
         var $lyrListItem = $(clickedElement).parent().parent();
         var geomType = $lyrListItem.data('geom-type');
         var layerId = $lyrListItem.data('layer-id');
@@ -2461,7 +2461,7 @@
         var resType;
         var $lyrListItem;
 
-        clickedElement = e.trigger.context;
+        clickedElement = e.trigger;
         $lyrListItem = $(clickedElement).parent().parent();
         index = Number($lyrListItem.data('layer-index'));
         resType = $lyrListItem.data('res-type');
