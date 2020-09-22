@@ -717,7 +717,10 @@ def get_hs_res_list(hs):
             'TimeSeriesResource',
             'ScriptResource', 'CompositeResource'
         ]
-        for res in hs.getResourceList(types=valid_res_types):
+        res_types = ['ModelInstanceResource', 'TimeSeriesResource', 'NetcdfResource', 'RefTimeSeriesResource', 'GenericResource',
+                    'CollectionResource', 'RasterResource', 'ModelProgramResource', 'GeographicFeatureResource', 'ScriptResource',
+                    'CompositeResource', 'SWATModelInstanceResource', 'MODFLOWModelInstanceResource', 'ToolResource']
+        for res in hs.resources(type=valid_res_types):
             res_id = res['resource_id']
             # This code calculates the cummulative files size of each resource. Comment out to improve performance.
             # res_size = 0
@@ -730,13 +733,18 @@ def get_hs_res_list(hs):
             # except Exception as e:
             #     logger.error(str(e))
 
-            res_list.append({
-                'title': res['resource_title'],
-                'type': res['resource_type'],
-                'id': res_id,
-                # 'size': sizeof_fmt(res_size) if res_size != 0 else "N/A",
-                'owner': res['creator']
-            })
+            try:
+                if hs.getSystemMetadata(res_id)['coverages'] != []:
+                    hs.getResourceMap(res_id)
+                    res_list.append({
+                        'title': res['resource_title'],
+                        'type': res['resource_type'],
+                        'id': res_id,
+                        # 'size': sizeof_fmt(res_size) if res_size != 0 else "N/A",
+                        'owner': res['creator']
+                    })
+            except:
+                pass
 
         return_obj['res_list'] = res_list
         return_obj['success'] = True
