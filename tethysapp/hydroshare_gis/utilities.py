@@ -734,7 +734,7 @@ def get_hs_res_list(hs):
             #     logger.error(str(e))
 
             try:
-                if hs.getSystemMetadata(res_id)['coverages'] != []:
+                if hs.getSystemMetadata(res_id)['coverages']:
                     hs.getResourceMap(res_id)
                     res_list.append({
                         'title': res['resource_title'],
@@ -1311,7 +1311,8 @@ def process_generic_res_file(hs, res_id, res_file_name, username, file_index=0):
 
     try:
 
-        response = get_info_from_generic_res_file(hs, res_id, res_file_name, hs_tempdir, file_index)
+        response = get_info_from_generic_res_file(hs, res_id, res_file_name, hs_tempdir, file_index) ##error loading .shp
+        print(response) ##
         return_obj['message'] = response['message']
         if response['success']:
             results = response['results']
@@ -1404,7 +1405,7 @@ def process_generic_res_file(hs, res_id, res_file_name, username, file_index=0):
     return return_obj
 
 
-def get_info_from_generic_res_file(hs, res_id, res_file_name, hs_tempdir, file_index):
+def get_info_from_generic_res_file(hs, res_id, res_file_name, hs_tempdir, file_index): ##error loading .shp
     return_obj = {
         'success': False,
         'message': None,
@@ -1488,9 +1489,9 @@ def get_info_from_generic_res_file(hs, res_id, res_file_name, hs_tempdir, file_i
 
                     os.rename(path, new_fpath)
                     shp_file_paths.append(new_fpath)
-
+                res_type = 'geographicfeatureresource'
                 r = check_crs(res_type, prj_path)
-                return_obj['message'] = r['message'] % os.path.basename(prj_path) if r['message'] else None
+                return_obj['message'] = r['message'] % os.path.basename(prj_path) if r['message'] else None ##error loading .shp
                 if r['success'] and r['crsWasChanged']:
                     with open(prj_path, 'w') as f:
                         f.seek(0)
