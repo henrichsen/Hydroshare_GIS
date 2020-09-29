@@ -6,7 +6,7 @@ app_package = 'hydroshare_gis'
 release_package = 'tethysapp-' + app_package
 
 # ### Python Dependencies ###
-dependencies = ['hs-restclient', 'xmltodict', 'GDAL']
+dependencies = []
 
 # -- Get Resource File -- #
 resource_files = find_resource_files('tethysapp/' + app_package + '/templates', 'tethysapp/' + app_package)
